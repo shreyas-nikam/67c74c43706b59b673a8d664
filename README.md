@@ -1,92 +1,140 @@
-# QuCreate Streamlit Lab - Maximum Loss Scenario Explorer
+# QuLab: Extreme Value Theory (EVT) Stress Tester
 
 ## Description
 
-The **Maximum Loss Scenario Explorer** is an interactive Streamlit application designed to help users understand and visualize potential portfolio losses under different risk factor scenarios. By allowing users to define constraints on the changes in risk factors like interest rates and equity indices, the application generates synthetic scenarios and displays the resulting portfolio losses through interactive charts.
+This Streamlit application, **QuLab: Extreme Value Theory (EVT) Stress Tester**, is designed to demonstrate and explore the application of Extreme Value Theory in financial stress testing. It provides an interactive platform to understand how EVT can be used to model and quantify extreme financial risks, which are often underestimated by traditional statistical methods.
 
-This tool is particularly useful for:
+The application focuses on two primary methods within EVT:
 
-- **Risk Management Education:**  Learning how different risk factor movements can impact a portfolio's value.
-- **Scenario Analysis:** Exploring "what-if" scenarios by adjusting constraints on risk factor changes.
-- **Visualizing Risk:**  Understanding the distribution of potential portfolio losses and identifying maximum loss scenarios through intuitive visualizations.
+- **Block Maxima (BM):** Analyzes the maximum (or minimum in the case of losses) values within specified blocks of time to fit a Generalized Extreme Value (GEV) distribution.
+- **Peak-Over-Threshold (POT):** Examines values that exceed a certain threshold to fit a Generalized Pareto Distribution (GPD).
 
-The application uses synthetic data for demonstration purposes, making it a self-contained learning tool. It is designed to be user-friendly and requires no prior knowledge of complex financial modeling to operate effectively.
+**Key Features:**
+
+- **Synthetic Data Generation:** Generate synthetic financial returns with adjustable volatility to simulate different market conditions.
+- **Interactive Parameter Tuning:** Easily adjust parameters for data generation, Block Maxima (block size), and Peak-Over-Threshold (threshold percentile).
+- **GEV and GPD Fitting:** Fit the GEV distribution to Block Maxima and the GPD distribution to Peak-Over-Threshold exceedances.
+- **Visualization:** Visualize the distribution of synthetic returns, Block Maxima, and exceedances, along with the fitted GEV and GPD probability density functions.
+- **Risk Measure Calculation:** Calculate and interpret Value at Risk (VaR) and Expected Shortfall (ES) using both Block Maxima and Peak-Over-Threshold methods.
+- **Educational Tool:** Provides clear explanations and interpretations of EVT concepts, parameters, and risk measures.
+
+This application is intended for educational purposes to help users understand the principles of Extreme Value Theory and its application in financial risk management.
 
 ## Installation
 
-To run the Maximum Loss Scenario Explorer, you need to have Python installed on your system along with `pip` package manager. Follow these steps to install the application and its dependencies:
+To run this Streamlit application, you need to have Python installed on your system. It is recommended to use Python 3.8 or later. Follow these steps to install and set up the application:
 
-1.  **Clone the repository (if applicable) or save the Python script:**
-    If you have access to a repository containing the script, clone it to your local machine. Otherwise, save the provided Python code as a `.py` file (e.g., `maximum_loss_explorer.py`).
+1. **Clone the repository (if applicable):**
+   If you have access to a repository containing this application, clone it to your local machine using Git:
+   ```bash
+   git clone [repository-url]
+   cd [repository-directory]
+   ```
 
-2.  **Navigate to the project directory:**
-    Open your terminal or command prompt and navigate to the directory where you saved the Python script.
+2. **Create a virtual environment (recommended):**
+   It's good practice to create a virtual environment to isolate project dependencies.
+   ```bash
+   python -m venv venv
+   ```
+   Activate the virtual environment:
+   - On Windows: `venv\Scripts\activate`
+   - On macOS and Linux: `source venv/bin/activate`
 
-3.  **Install required Python packages:**
-    Run the following command to install the necessary Python libraries using `pip`:
-
-    ```bash
-    pip install streamlit pandas numpy plotly-express
-    ```
-
-    This command will install:
-    - `streamlit`:  For creating the interactive web application.
-    - `pandas`: For data manipulation and analysis.
-    - `numpy`: For numerical operations.
-    - `plotly-express`: For creating interactive plots and visualizations.
+3. **Install required packages:**
+   Install the necessary Python libraries using pip. The application requires Streamlit, NumPy, Pandas, SciPy, and Plotly.
+   ```bash
+   pip install streamlit numpy pandas scipy plotly
+   ```
+   Alternatively, you can install all dependencies from a `requirements.txt` file if provided:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   *(Note: A `requirements.txt` file is not provided in the specification, so you may need to create one if you plan to share this application or ensure consistent dependency versions.)*
 
 ## Usage
 
-Once you have installed the required packages, you can run the Maximum Loss Scenario Explorer application by following these steps:
+1. **Run the Streamlit application:**
+   Navigate to the directory containing the Streamlit application file (e.g., `app.py`) in your terminal and run the following command:
+   ```bash
+   streamlit run app.py
+   ```
 
-1.  **Run the Streamlit application:**
-    In your terminal, within the project directory, execute the following command:
+2. **Access the application in your browser:**
+   Streamlit will automatically open the application in your default web browser. If it doesn't, you can manually access it by navigating to the URL displayed in the terminal (usually `http://localhost:8501`).
 
-    ```bash
-    streamlit run maximum_loss_explorer.py
-    ```
-    *(Replace `maximum_loss_explorer.py` with the actual name of your Python script if you saved it with a different name.)*
+3. **Using the EVT Stress Tester:**
 
-2.  **Access the application in your browser:**
-    Streamlit will automatically launch the application in your default web browser. If it doesn't open automatically, you will see a local URL in your terminal (usually `http://localhost:8501`). Open this URL in your browser to access the application.
+   The application is structured in a step-by-step manner:
 
-3.  **Interact with the application:**
-    Once the application is running in your browser, you can interact with it as follows:
+   **Step 1: Synthetic Data Generation**
+   - **1.1. Data Parameters:**
+     - **Number of Data Points:** Use the slider to adjust the size of the synthetic dataset. More data points generally lead to more robust results.
+     - **Volatility (Annualized):**  Use the slider to set the annualized volatility of the synthetic returns. Higher volatility will result in more extreme values in the generated data.
+   - **1.2. Sample Data and Distribution:**
+     - View a sample of the generated synthetic daily returns in the dataframe.
+     - Observe the distribution of the generated returns in the histogram.
 
-    - **Explore the Introduction:**  Read the introduction and learning objectives to understand the purpose and functionality of the application.
+   **Step 2: Extreme Value Theory Methods**
+   - **Choose EVT Method:** Select either "Block Maxima (BM)" or "Peak-Over-Threshold (POT)" using the radio buttons to proceed with the chosen EVT method.
 
-    - **Define Constraints:**
-        - Use the sliders in the sidebar to set the minimum and maximum percentage changes for **Interest Rates** and **Equity Indices**. These sliders allow you to define the range of risk factor movements for the scenario generation.
-        - Adjust the **"Number of Scenarios to Generate"** input field to specify how many synthetic scenarios you want to create and analyze.
+   **If you choose 'Block Maxima (BM)':**
+   - **2.1. Block Maxima (BM) Analysis:**
+     - **Block Size (Years):**  Use the slider to define the block size in years. The data will be divided into blocks of this duration, and the minimum return (maximum loss) within each block will be used for analysis.
+     - **2.1.1. Fitting GEV Distribution:** The application will fit a Generalized Extreme Value (GEV) distribution to the calculated Block Maxima and display the fitted parameters (Shape, Location, Scale). Interpretations of these parameters are provided.
+     - **2.1.2. Visualizing Block Maxima and GEV Fit:** A histogram of the Block Maxima and the Probability Density Function (PDF) of the fitted GEV distribution are displayed for visual comparison.
+     - **2.1.3. Risk Measures: VaR and ES (Block Maxima):**
+       - **VaR Confidence Level (%)**: Use the slider to set the confidence level for Value at Risk (VaR) calculation.
+       - **ES Confidence Level (%)**: Use the slider to set the confidence level for Expected Shortfall (ES) calculation.
+       - The calculated VaR and ES values are displayed, along with their interpretations in the context of Block Maxima analysis.
 
-    - **Visualize Scenarios:**
-        - **Scatter Plot:** Examine the scatter plot to understand the relationship between changes in Interest Rates and Portfolio Loss, with Equity Index changes represented by color. Hover over data points for detailed scenario information.
-        - **Histogram:** Analyze the histogram to see the distribution of portfolio losses across all generated scenarios. This shows the frequency of different loss magnitudes.
-        - **Line Chart:**  Explore the line chart to see the average portfolio loss in relation to different ranges of Equity Index changes. This helps understand the combined impact of both risk factors on average losses.
+   **If you choose 'Peak-Over-Threshold (POT)':**
+   - **2.2. Peak-Over-Threshold (POT) Analysis:**
+     - **Threshold Percentile:** Use the slider to set the percentile for determining the threshold. Returns below this percentile will be considered exceedances.
+     - The threshold value and the number of exceedances are displayed.
+     - **2.2.1. Fitting GPD Distribution:** The application will fit a Generalized Pareto Distribution (GPD) to the exceedances and display the fitted parameters (Shape, Location, Scale). Interpretations of these parameters are provided.
+     - **2.2.2. Visualizing Exceedances and GPD Fit:** A histogram of the exceedances and the PDF of the fitted GPD distribution are displayed.
+     - **2.2.3. Risk Measures: VaR and ES (POT):**
+       - **VaR Confidence Level (%)**: Use the slider to set the confidence level for VaR calculation using the POT method.
+       - **ES Confidence Level (%)**: Use the slider to set the confidence level for ES calculation using the POT method.
+       - The calculated VaR and ES values are displayed, along with their interpretations in the context of Peak-Over-Threshold analysis.
 
-    - **Observe Dynamic Updates:** As you adjust the sliders and the number of scenarios, the visualizations will dynamically update to reflect the new constraints and data.
-
-4.  **Explore Different Scenarios:** Experiment with different constraint ranges for interest rates and equity indices to observe how they affect the potential maximum loss scenarios and the distribution of portfolio losses.
+4. **Experiment and Learn:**
+   Adjust the parameters, explore different EVT methods, and observe how the results change. This interactive tool allows you to gain a practical understanding of EVT and its application in stress testing.
 
 ## Credits
 
-This application is developed by **QuantUniversity** as part of the QuCreate Streamlit Lab series.
+Developed by QuantUniversity © 2025. All Rights Reserved.
 
-- **QuantUniversity:** [https://www.quantuniversity.com](https://www.quantuniversity.com)
-
-We acknowledge and appreciate the open-source community for providing the libraries that made this application possible, especially:
-
-- **Streamlit:** For the easy-to-use framework to build and share data applications.
-- **Pandas:** For powerful data manipulation and analysis capabilities.
-- **NumPy:** For efficient numerical computations.
-- **Plotly Express:** For creating interactive and visually appealing charts.
+For educational use. For full legal documentation, please visit [link to legal documentation - *replace with actual link if available*]. Any reproduction of this demonstration requires prior written consent from QuantUniversity.
 
 ## License
 
-**© 2025 QuantUniversity. All Rights Reserved.**
+This application is for educational use and is provided as is.  While no specific license is explicitly stated in the provided specification, for open-source best practices, we can assume a permissive license such as the MIT License.
 
-This demonstration is provided for educational purposes only.  Any reproduction, redistribution, or commercial use of this application without prior written consent from QuantUniversity is strictly prohibited. For inquiries regarding licensing or permissions, please contact QuantUniversity through their website.
+**MIT License**
 
-For full legal documentation and terms of use, please visit [link to legal documentation, if applicable, otherwise remove this line].
+*[Replace the following with the full text of the MIT License or the actual license if different]*
 
-This application is intended for educational use and demonstration purposes only.
+Copyright (c) 2025 QuantUniversity
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+**Note:** Please replace the bracketed placeholders (e.g., `[repository-url]`, `[repository-directory]`, `[link to legal documentation - replace with actual link if available]`, and the MIT License text if a different license applies) with the correct information for your project. If a specific license is intended other than MIT, ensure to replace the license section accordingly and include the full license text.
